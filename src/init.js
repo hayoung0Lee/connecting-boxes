@@ -11,6 +11,17 @@ let $circle;
 let isConnecting;
 let cStart, cTop;
 
+let boxConnected = {
+  // box1: {
+  //   x: 0,
+  //   y: 0,
+  // },
+  // box2: {
+  //   x: 0,
+  //   y: 0,
+  // },
+};
+
 // TODO
 // mouse event 위치 관련 정비
 // 상자를 이동했을때도 라인이 같이 따라오도록 개선
@@ -47,6 +58,11 @@ function startConnecting(e) {
     cStart = document.getElementById(`btn${isConnecting}-box`).offsetLeft + 200;
   }
   cTop = document.getElementById(`btn${isConnecting}-box`).offsetTop + 20;
+
+  boxConnected[`box${isConnecting}`] = {
+    x: cStart,
+    y: cTop,
+  };
 
   $path.setAttribute("d", `M${cStart} ${cTop} L${cStart} ${cTop}`);
   $circle.setAttribute("cx", cStart);
@@ -87,7 +103,13 @@ function endConnecting(e) {
     const topEnd =
       document.getElementById(`btn${3 - isConnecting}-box`).offsetTop + 20;
 
+    boxConnected[`box${3 - isConnecting}`] = {
+      x: cEnd,
+      y: topEnd,
+    };
+
     $path.setAttribute("d", `M${cStart} ${cTop} L${cEnd} ${topEnd}`);
+
     cStart = 0;
     cTop = 0;
   } else {
@@ -153,7 +175,23 @@ function boxMoving(e) {
     pos4 = e.clientY;
     target.style.left = target.offsetLeft - pos1 + "px";
     target.style.top = target.offsetTop - pos2 + "px";
-    // FIXME: div 옮겼을때도 선이 유지되도록
+
+    let boxNum = target.dataset.boxNum;
+    if (boxConnected[`box${boxNum}`]) {
+      boxConnected[`box${boxNum}`] = {
+        x: boxConnected[`box${boxNum}`].x - pos1,
+        y: boxConnected[`box${boxNum}`].y - pos2,
+      };
+
+      $path.setAttribute(
+        "d",
+        `M${boxConnected[`box${boxNum}`].x} ${
+          boxConnected[`box${boxNum}`].y
+        } L${boxConnected[`box${3 - boxNum}`].x} ${
+          boxConnected[`box${3 - boxNum}`].y
+        }`
+      );
+    }
   }
 }
 
