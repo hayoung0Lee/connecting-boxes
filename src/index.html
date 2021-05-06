@@ -9,19 +9,18 @@
 </head>
 <body>
     <div class="container">
-        <div class="box box1 flowline">
+        <div class="box box1" id="btn1-box">
             <div class="btn btn1"></div>
             <div class="btn btn1"></div>
         </div>
-        <div class="box box2">
+        <div class="box box2" id="btn2-box">
             <div class="btn btn2"></div>
             <div class="btn btn2"></div>
         </div>
-
-        <svg class='svg' width="350" height="20" version="1.1" xmlns="http://www.w3.org/2000/svg">
-            <line class="flowline" stroke-dasharray="5, 5" x1="0" y1="10" x2="350" y2="10"></line>
-        </svg>
-		  
+        <svg>
+            <path class="flowline invisible"></path>
+            <circle class="circle invisible" r="5" fill="green"></circle>
+        </svg>		  
     </div>
     <script src="./init.js"></script>
 </body>
