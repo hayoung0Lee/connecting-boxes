@@ -5,7 +5,4 @@ html, body {
 
 #canvas {
     border: 1px solid black;
-    margin: 1vh 0 0 1vw;
-    width: 98vw;
-    height: 98vh;
 }
