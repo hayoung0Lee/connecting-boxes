@@ -70,6 +70,12 @@ svg {
     -webkit-animation: flow 1s linear infinite;
 }
 
+.drawn {
+    fill: none;
+    stroke: black;
+    stroke-width: 4;
+}
+
 @keyframes flow {
     from {
       stroke-dashoffset: 14;

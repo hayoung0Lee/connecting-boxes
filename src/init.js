@@ -56,15 +56,16 @@ const btnDrag = (e) => {
     // cursor
     document.body.style.cursor = "default";
     $circle.classList.add("invisible");
+    $path.classList.remove("flowline");
+    $path.classList.add("drawn");
     if (e.target.classList.value !== target.classList.value) {
       console.log("다른 도형끼리 연결!");
 
       const end = document.getElementById("btn2-box").getBoundingClientRect();
 
-      console.log(end.left);
       $path.setAttribute(
         "d",
-        `M${left + 190} ${top + 10} L${end.left - 10} ${end.top + 10}`
+        `M${left + 185} ${top + 10} L${end.left - 10} ${end.top + 10}`
       );
 
       left = 0;
