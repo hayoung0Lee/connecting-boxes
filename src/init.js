@@ -86,7 +86,7 @@ const mousedown = (e) => {
   }
 };
 
-const mousemove = (e) => {
+const mousemove_box = (e) => {
   // box일때만 동작한다
   if (boxOrBtn(e) === "box" && isDrawing === true) {
     pos1 = pos3 - e.clientX;
@@ -98,7 +98,9 @@ const mousemove = (e) => {
 
     // FIXME: div 옮겼을때도 선이 유지되도록
   }
+};
 
+const mousemove_btn = (e) => {
   if (isConnecting === true) {
     console.log("연결 중");
     // FIXME: 이부분 개선하기.. setAttribute 또해도 되는건가?
@@ -128,9 +130,11 @@ function init() {
   for (const $box of $boxes) {
     // 누르기 시작할때
     $box.addEventListener("mousedown", mousedown);
-    // 누른 상태에서 이동할때
-    $box.addEventListener("mousemove", mousemove);
+    $box.addEventListener("mousemove", mousemove_box);
     // 마우스를 뗐을때
     $box.addEventListener("mouseup", mouseup);
   }
+
+  // 누른 상태에서 이동할때
+  $container.addEventListener("mousemove", mousemove_btn);
 }
