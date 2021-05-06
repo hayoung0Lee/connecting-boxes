@@ -26,12 +26,12 @@ html, body {
 }
 
 .box1 {
-    left: 50px;
+    left: 150px;
     top: 100px;
 }
 
 .box2 {
-    left: 500px;
+    left: 800px;
     top: 100px;
 }
 
@@ -58,6 +58,11 @@ svg {
     height: 100%;
     position: absolute;
     pointer-events: none;
+}
+
+svg * {
+    margin: 0;
+    padding: 0;
 }
 
 .flowline {
