@@ -22,12 +22,25 @@ let boxConnected = {
   // },
 };
 
-// TODO
-// mouse event 위치 관련 정비
-// 상자를 이동했을때도 라인이 같이 따라오도록 개선
-// svg 객체 관련 개선, setAttribute 이렇게 해도 되는건지 확인
 window.addEventListener("load", init);
 
+function init() {
+  $container = document.querySelector(".container");
+  $path = document.querySelector(".flowline");
+  $circle = document.querySelector(".circle");
+  const $boxes = document.querySelectorAll(".box");
+
+  for (const $box of $boxes) {
+    // 누르기 시작할때
+    $box.addEventListener("mousedown", boxEventStart);
+    // 이동할 때
+    $box.addEventListener("mousemove", boxMoving);
+    // 마우스를 뗐을때
+    $box.addEventListener("mouseup", boxFinishMoving);
+  }
+}
+
+// box를 선택했는지 사각형 내부 점을 선택했는지
 const boxOrBtn = (e) => {
   if (e.target.classList.contains("box")) {
     return "box";
@@ -37,6 +50,74 @@ const boxOrBtn = (e) => {
   }
 };
 
+// box 관련 동작
+function boxDrag(e) {
+  isDrawing = true;
+  target = e.target;
+  isConnecting = 0;
+  pos3 = e.clientX;
+  pos4 = e.clientY;
+}
+
+function boxEventStart(e) {
+  switch (boxOrBtn(e)) {
+    case "box":
+      // 박스를 이동하는 이벤트
+      boxDrag(e);
+      break;
+    case "btn":
+      // 버튼을 누르는 동작 처리
+      btnDrag(e);
+      break;
+  }
+}
+
+function boxMoving(e) {
+  // box일때만 동작한다
+  if (boxOrBtn(e) === "box" && isDrawing === true) {
+    pos1 = pos3 - e.clientX;
+    pos2 = pos4 - e.clientY;
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    target.style.left = target.offsetLeft - pos1 + "px";
+    target.style.top = target.offsetTop - pos2 + "px";
+
+    const boxNum = target.dataset.boxNum;
+    if (boxConnected[`box${boxNum}`]) {
+      boxConnected[`box${boxNum}`] = {
+        x: boxConnected[`box${boxNum}`].x - pos1,
+        y: boxConnected[`box${boxNum}`].y - pos2,
+      };
+
+      $path.setAttribute(
+        "d",
+        `M${boxConnected[`box${boxNum}`].x} ${
+          boxConnected[`box${boxNum}`].y
+        } L${boxConnected[`box${3 - boxNum}`].x} ${
+          boxConnected[`box${3 - boxNum}`].y
+        }`
+      );
+    }
+  }
+}
+
+function boxFinishMoving(e) {
+  // box일때만 동작한다
+  if (boxOrBtn(e) === "box" && isDrawing === true) {
+    isDrawing = false;
+    (pos1 = 0), (pos2 = 0), (pos3 = 0), (pos4 = 0);
+  }
+}
+
+function btnDrag(e) {
+  if (isConnecting) {
+    endConnecting(e);
+  } else {
+    startConnecting(e);
+  }
+}
+
+// btn(사각형 내부 점) 관련 처리
 function startConnecting(e) {
   // cursor
   document.body.style.cursor = "move";
@@ -114,91 +195,8 @@ function endConnecting(e) {
     cTop = 0;
   } else {
     $path.classList.add("invisible");
+    boxConnected = {};
   }
 
   isConnecting = 0;
-}
-
-function init() {
-  $container = document.querySelector(".container");
-  $path = document.querySelector(".flowline");
-  $circle = document.querySelector(".circle");
-  const $boxes = document.querySelectorAll(".box");
-
-  for (const $box of $boxes) {
-    // 누르기 시작할때
-    $box.addEventListener("mousedown", boxEventStart);
-    // 이동할 때
-    $box.addEventListener("mousemove", boxMoving);
-    // 마우스를 뗐을때
-    $box.addEventListener("mouseup", boxFinishMoving);
-  }
-}
-
-// btn 관련 처리
-function btnDrag(e) {
-  if (isConnecting) {
-    endConnecting(e);
-  } else {
-    startConnecting(e);
-  }
-}
-
-// box 관련 동작
-function boxDrag(e) {
-  isDrawing = true;
-  target = e.target;
-  isConnecting = false;
-  pos3 = e.clientX;
-  pos4 = e.clientY;
-}
-
-function boxEventStart(e) {
-  switch (boxOrBtn(e)) {
-    case "box":
-      // 박스를 이동하는 이벤트
-      boxDrag(e);
-      break;
-    case "btn":
-      // 버튼을 누르는 동작 처리
-      btnDrag(e);
-      break;
-  }
-}
-
-function boxMoving(e) {
-  // box일때만 동작한다
-  if (boxOrBtn(e) === "box" && isDrawing === true) {
-    pos1 = pos3 - e.clientX;
-    pos2 = pos4 - e.clientY;
-    pos3 = e.clientX;
-    pos4 = e.clientY;
-    target.style.left = target.offsetLeft - pos1 + "px";
-    target.style.top = target.offsetTop - pos2 + "px";
-
-    let boxNum = target.dataset.boxNum;
-    if (boxConnected[`box${boxNum}`]) {
-      boxConnected[`box${boxNum}`] = {
-        x: boxConnected[`box${boxNum}`].x - pos1,
-        y: boxConnected[`box${boxNum}`].y - pos2,
-      };
-
-      $path.setAttribute(
-        "d",
-        `M${boxConnected[`box${boxNum}`].x} ${
-          boxConnected[`box${boxNum}`].y
-        } L${boxConnected[`box${3 - boxNum}`].x} ${
-          boxConnected[`box${3 - boxNum}`].y
-        }`
-      );
-    }
-  }
-}
-
-function boxFinishMoving(e) {
-  // box일때만 동작한다
-  if (boxOrBtn(e) === "box" && isDrawing === true) {
-    isDrawing = false;
-    (pos1 = 0), (pos2 = 0), (pos3 = 0), (pos4 = 0);
-  }
 }
