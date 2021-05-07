@@ -1,103 +1,103 @@
-html, body {
-    padding: 0;
-    margin: 0;
+html,
+body {
+  padding: 0;
+  margin: 0;
 }
 
 .container {
-    box-sizing: border-box;
-    margin: 1vh 1vw;
-    width: 98vw;
-    height: 98vh;
-    border: 2px solid black;
-    position: relative;
+  box-sizing: border-box;
+  margin: 1vh 1vw;
+  width: 98vw;
+  height: 98vh;
+  border: 2px solid black;
+  position: relative;
 }
 
 .box {
-    padding: 10px;
-    box-sizing: border-box;
-    border: 2px solid black;
-    border-radius: 5px;
-    background-color: azure;
-    width: 200px;
-    height: 200px;
-    display: flex;
-    justify-content: space-between;
-    position: absolute;  
+  padding: 10px;
+  box-sizing: border-box;
+  border: 2px solid black;
+  border-radius: 5px;
+  background-color: azure;
+  width: 200px;
+  height: 200px;
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
 }
 
 .box1 {
-    left: 150px;
-    top: 100px;
+  left: 150px;
+  top: 100px;
 }
 
 .box2 {
-    left: 800px;
-    top: 100px;
+  left: 400px;
+  top: 100px;
 }
 
-.btn { 
-    width: 15px;
-    height: 15px;
-    border: 1px solid black;
-    border-radius:3px;
+.btn {
+  width: 15px;
+  height: 15px;
+  border: 1px solid black;
+  border-radius: 3px;
 }
 
 .btn:hover {
-    cursor: pointer;
-    background-color: blue;
+  cursor: pointer;
+  background-color: green;
 }
 
 .invisible {
-    visibility:hidden
+  visibility: hidden;
 }
 
 /* flowing dotted line */
 svg {
-    z-index: 100;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    pointer-events: none;
+  z-index: 100;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  pointer-events: none;
 }
 
 svg * {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 .flowline {
-    fill: none;
-    stroke: green;
-    opacity: 0.5;
-    stroke-width: 4;
-    stroke-dasharray: 10, 4;
-    animation: flow 1s linear infinite;
-    -webkit-animation: flow 1s linear infinite;
+  fill: none;
+  stroke: green;
+  opacity: 0.5;
+  stroke-width: 4;
+  stroke-dasharray: 10, 4;
+  animation: flow 1s linear infinite;
+  -webkit-animation: flow 1s linear infinite;
 }
 
 .drawn {
-    fill: none;
-    stroke: black;
-    stroke-width: 4;
+  fill: none;
+  stroke: black;
+  stroke-width: 4;
 }
 
 @keyframes flow {
-    from {
-      stroke-dashoffset: 14;
-    }
-  
-    to {
-      stroke-dashoffset: 0;
-    }
+  from {
+    stroke-dashoffset: 14;
   }
-  
-  @-webkit-keyframes flow {
-    from {
-      stroke-dashoffset: 14;
-    }
-  
-    to {
-      stroke-dashoffset: 0;
-    }
+
+  to {
+    stroke-dashoffset: 0;
   }
-  
+}
+
+@-webkit-keyframes flow {
+  from {
+    stroke-dashoffset: 14;
+  }
+
+  to {
+    stroke-dashoffset: 0;
+  }
+}
